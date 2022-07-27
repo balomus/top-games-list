@@ -17,21 +17,21 @@ function GameLookup() {
   }, [formData]);
 
   useEffect(() => {
-    authenticateAPI();
+    // authenticateAPI();
   }, [])
 
-  const authenticateAPI = async () => {
-    let response = await fetch (`https://id.twitch.tv/oauth2/token?client_id=${process.env.TWITCH_CLIENT_ID}&client_secret=${process.env.TWITCH_CLIENT_SECRET}&grant_type=${process.env.GRANT_TYPE}`);
-    let data = await response.json();
-    console.log(data);
-  }
+  // const authenticateAPI = async () => {
+  //   let response = await fetch (`https://id.twitch.tv/oauth2/token?client_id=${process.env.TWITCH_CLIENT_ID}&client_secret=${process.env.TWITCH_CLIENT_SECRET}&grant_type=${process.env.GRANT_TYPE}`);
+  //   let data = await response.json();
+  //   console.log(data);
+  // }
   
   return (
     <div>
-        <h2>Game Lookup</h2>
+        <h2>Lookup</h2>
         <form>
             <label>
-                Enter a game:
+                Enter a title:
                 <input type="text" name="game" value={formData} onChange={onChange} />
             </label>
         </form>
