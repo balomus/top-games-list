@@ -1,6 +1,9 @@
+import axios from "axios";
 import { useEffect, useState } from "react";
 
 function GameLookup() {
+
+  const serverAPI = "/api/authenticate";
   const [formData, setFormData] = useState("");
 
   const lookupResults = ["test1", "test2"];
@@ -17,6 +20,10 @@ function GameLookup() {
   }, [formData]);
 
   useEffect(() => {
+    axios.post(serverAPI).then((res) => {
+      console.log(res.data);
+    });
+    localStorage.setItem('accessToken', JSON.stringify({'token': 'test'}));
     // authenticateAPI();
   }, [])
 
