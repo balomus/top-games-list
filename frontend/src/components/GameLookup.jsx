@@ -15,15 +15,31 @@ function GameLookup() {
   useEffect(() => {
     if (formData !== "")
     {
+      //https://masteringjs.io/tutorials/axios/post-headers
       
+      // axios.post("https://api.igdb.com/v4/games/", 
+      // {
+      //   search: "persona",
+      //   fields: "name"
+      // }, 
+      // {
+      //   headers: 
+      //   {
+      //     Client-ID: 
+      //   }
+      // })
+      // .then((res) => {
+      //   console.log(res.data);
+      // })
     }
   }, [formData]);
 
   useEffect(() => {
     axios.post(serverAPI).then((res) => {
       console.log(res.data);
+      localStorage.setItem('accessToken', JSON.stringify({'token': res.data}));
     });
-    localStorage.setItem('accessToken', JSON.stringify({'token': 'test'}));
+    // localStorage.setItem('accessToken', JSON.stringify({'token': 'test'}));
     // authenticateAPI();
   }, [])
 
