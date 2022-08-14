@@ -6,20 +6,24 @@ const axios = require('axios');
 // @route GET /api/accessToken
 // @access Public
 const getAccessToken = asyncHandler(async (req, res) => {
-    const accessToken = await (await AccessToken.find().sort({ $natural: -1 }).limit(1));
+    const accessToken = await (await AccessToken.find().sort({ $natural: -1 }).limit(1))[0];
 
-    // const validate = validateAccessToken(accessToken);
+    axios.get("https://id.twitch.tv/oauth2/validate", {
+        headers: {
+            'Client-ID': process.env.TWITCH_CLIENT_ID,
+            'Authorization': `Bearer ${accessToken.access_token}`
+        }
+    })
+    .then((response) => {
+        console.log("Token still valid, no change needed");
+        res.status(200).json(accessToken);
+    })
+    .catch((error) => {
+        console.log("Token is no longer valid, updating token");
+        setAccessToken(req, res);
+    })
 
-    // if (validate == accessToken)
-    // {
-    //     console.log("Token still valid. No change made.")
-    // }
-    // else
-    // {
-    //     console.log("Token is no longer valid. Need to update.");
-    // }
-
-    res.status(200).json(accessToken);
+    // res.status(200).json(accessToken);
 })
 
 // @desc Set accessToken
@@ -60,8 +64,25 @@ const validateAccessToken = asyncHandler(async (req, res) => {
         // console.log(error.response.status);
         // res.json(error.response.status);
     })
-
 })
+
+const checkIfValid = async (token) => {
+    console.log("token is " + token)
+    // let valid = null;
+    await axios.get("https://id.twitch.tv/oauth2/validate", {
+        headers: {
+            'Client-ID': process.env.TWITCH_CLIENT_ID,
+            'Authorization': `Bearer ${token.access_token}`
+        }
+    })
+    .then(() => {
+        return true;
+    })
+    .catch((error) => {
+        return false;
+    })
+    // return valid;
+}
 
 module.exports = {
     getAccessToken,
