@@ -1,4 +1,5 @@
 const express = require("express");
+const { setAccessToken } = require("../controllers/accessTokenController");
 const router = express.Router();
 const {
     authenticate
