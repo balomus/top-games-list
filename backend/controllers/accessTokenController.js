@@ -40,52 +40,7 @@ const setAccessToken = async (req, res) => {
     })
 };
 
-// @desc Validate accessToken
-// @route GET /api/accessToken/:token
-// @access Public
-const validateAccessToken = asyncHandler(async (req, res) => {
-    const token = await AccessToken.findOne({ "access_token": req.params.token })
-    // const token = await AccessToken.find().select({ access_token: req.params.token });
-    // console.log(token);
-    // res.json(token);
-
-    axios.get("https://id.twitch.tv/oauth2/validate", {
-        headers: {
-            'Client-ID': process.env.TWITCH_CLIENT_ID,
-            'Authorization': `Bearer ${token.access_token}`
-        }
-    })
-    .then((response) => {
-        console.log(response.status);
-        res.json(token);
-    })
-    .catch((error) => {
-        setAccessToken(req, res);
-        // console.log(error.response.status);
-        // res.json(error.response.status);
-    })
-})
-
-const checkIfValid = async (token) => {
-    console.log("token is " + token)
-    // let valid = null;
-    await axios.get("https://id.twitch.tv/oauth2/validate", {
-        headers: {
-            'Client-ID': process.env.TWITCH_CLIENT_ID,
-            'Authorization': `Bearer ${token.access_token}`
-        }
-    })
-    .then(() => {
-        return true;
-    })
-    .catch((error) => {
-        return false;
-    })
-    // return valid;
-}
-
 module.exports = {
     getAccessToken,
     setAccessToken,
-    validateAccessToken
 }
