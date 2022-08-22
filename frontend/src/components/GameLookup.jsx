@@ -33,6 +33,10 @@ function GameLookup() {
         console.log(error);
       })
     }
+    else
+    {
+      
+    }
   }, [formData]);
 
   useEffect(() => {

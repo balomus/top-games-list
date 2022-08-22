@@ -11,11 +11,12 @@ const igdbAPI = "https://api.igdb.com/v4/games/";
 const getGames = asyncHandler(async (req, res) => {
     let token = await axios.get(`${serverAPI}accessToken`);
     token = token.data.access_token;
-    console.log(token);
+    // console.log(token);
 
     let name = req.params.name;
 
-    let data = `search: "${name}";fields: name;`;
+    let data = `search: "${name}";
+                fields: name,platforms,cover;`;
 
     let config = {
         headers: {
@@ -35,7 +36,7 @@ const getGames = asyncHandler(async (req, res) => {
         data: data
     })
     .then((response) => {
-        console.log(response.data);
+        // console.log(response.data);
         res.json(response.data);
     })
     .catch((error) => {

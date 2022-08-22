@@ -15,7 +15,7 @@ const getAccessToken = asyncHandler(async (req, res) => {
         }
     })
     .then((response) => {
-        console.log("Token still valid, no change needed");
+        // console.log("Token still valid, no change needed");
         res.status(200).json(accessToken);
     })
     .catch((error) => {
