@@ -22,7 +22,7 @@ function GameLookup() {
     if (formData !== "")
     {
       // console.log(serverAPI + "lookup" + formData);
-      axios.post(serverAPI + "lookup/" + formData)
+      axios.post(serverAPI + "lookup/games/" + formData)
       .then((response) => {
         console.log(response.data);
         setLookupResults(response.data);
