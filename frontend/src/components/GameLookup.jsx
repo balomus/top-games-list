@@ -6,7 +6,6 @@ function GameLookup() {
   const serverAPI = "/api/";
   const [formData, setFormData] = useState("");
 
-  // const initialResults = ["test1", "test2"]
   const initialResults = [
     {id: 1, name: "test1"},
     {id: 2, name: "test2"}
@@ -14,37 +13,29 @@ function GameLookup() {
 
   const [lookupResults, setLookupResults] = useState(initialResults);
 
-  const onChange = (e) => {
-    setFormData((e.target.value))
-  }
-
-  useEffect(() => {
+  const lookupAPICall = () => {
     if (formData !== "")
     {
-      // console.log(serverAPI + "lookup" + formData);
       axios.post(serverAPI + "lookup/games/" + formData)
       .then((response) => {
         console.log(response.data);
         setLookupResults(response.data);
-        // setLookupResults(response.data);
-        // lookupResults = response.data;
       })
       .catch((error) => {
         console.log(error);
       })
     }
-    else
-    {
-      
-    }
-  }, [formData]);
+  }
+
+  const onChange = (e) => {
+    setFormData((e.target.value))
+  }
 
   useEffect(() => {
-    // axios.post(serverAPI).then((res) => {
-    //   console.log(res.data);
-    //   localStorage.setItem('accessToken', JSON.stringify({'token': res.data}));
-    // });
-  }, [])
+    const timeoutId = setTimeout(() => lookupAPICall(), 1000);
+    
+    return () => clearTimeout(timeoutId);
+  }, [formData]);
   
   return (
     <div>
