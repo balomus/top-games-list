@@ -16,7 +16,8 @@ const getGames = asyncHandler(async (req, res) => {
     let name = req.params.name;
 
     let data = `search: "${name}";
-                fields: name,platforms,cover;`;
+                fields: name,platforms,cover;
+                where cover != null;`;
 
     axios({
         url: igdbAPI + 'games',
@@ -29,12 +30,18 @@ const getGames = asyncHandler(async (req, res) => {
         data: data
     })
     .then((response) => {
-        console.log(response.data);
-        // response.data.forEach(game => {
-        //     axios({
-        //         url: 
-        //     })
-        // });
+        response.data.forEach((game) => {
+            let cover = "no cover";
+            axios.post(`${serverAPI}lookup/cover/${game.cover}`)
+            .then((response2) => {
+                game.url = response2.data;
+                console.log(game);
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+            game.url = cover;
+        });
         res.json(response.data);
     })
     .catch((error) => {
@@ -67,7 +74,7 @@ const getCover = asyncHandler(async (req, res) => {
         data: data
     })
     .then((response) => {
-        console.log(response.data);
+        // console.log(response.data);
         res.json("https://images.igdb.com/igdb/image/upload/t_720p/" + response.data[0].image_id + ".jpg");
     })
     .catch((error) => {
