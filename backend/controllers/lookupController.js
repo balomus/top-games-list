@@ -1,4 +1,5 @@
 const axios = require("axios");
+const { response } = require("express");
 const asyncHandler = require("express-async-handler");
 const { getAccessToken } = require("./accessTokenController");
 
@@ -30,19 +31,24 @@ const getGames = asyncHandler(async (req, res) => {
         data: data
     })
     .then((response) => {
-        response.data.forEach((game) => {
-            let cover = "no cover";
-            axios.post(`${serverAPI}lookup/cover/${game.cover}`)
-            .then((response2) => {
-                game.url = response2.data;
-                console.log(game);
-            })
-            .catch((error) => {
-                console.log(error);
-            })
-            game.url = cover;
-        });
-        res.json(response.data);
+        let listOfCovers = response.data.map(({ cover }) => cover);
+
+        axios.post(`${serverAPI}lookup/cover/${listOfCovers.join(', ')}`)
+        .then((coverResponse) => {
+            for (i = 0; i < response.data.length; i++)
+            {
+                coverObj = coverResponse.data.filter(cover => {
+                    return cover.game == response.data[i].id;
+                });
+                
+                console.log(...coverObj);
+                response.data[i].url = coverObj[0].url;
+            }
+            res.json(response.data);
+        })
+        .catch((error) => {
+            console.log(error);
+        })
     })
     .catch((error) => {
         console.log(error);
@@ -60,7 +66,7 @@ const getCover = asyncHandler(async (req, res) => {
     let id = req.params.id;
 
     let data = `where id = (${id});
-                fields: image_id;`;
+                fields: image_id,game;`;
 
     axios({
         url: igdbAPI + 'covers',
@@ -73,13 +79,10 @@ const getCover = asyncHandler(async (req, res) => {
         data: data
     })
     .then((response) => {
-        console.log(response.data);
-        let urls = [];
         response.data.forEach(cover => {
-            urls.push("https://images.igdb.com/igdb/image/upload/t_720p/" + cover.image_id + ".jpg")
+            cover.url = "https://images.igdb.com/igdb/image/upload/t_720p/" + cover.image_id + ".jpg";
         });
-        res.json(urls);
-        // res.json("https://images.igdb.com/igdb/image/upload/t_720p/" + response.data[0].image_id + ".jpg");
+        res.json(response.data);
     })
     .catch((error) => {
         console.log(error);

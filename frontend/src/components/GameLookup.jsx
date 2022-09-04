@@ -47,7 +47,10 @@ function GameLookup() {
             </label>
         </form>
         {lookupResults.map((result) => (
-          <div key={result.id}>{result.name}</div>
+          <div key={result.id}>
+            <img src={result.url}></img>
+            {result.name}
+          </div>
         ))}
     </div>
   )
