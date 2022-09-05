@@ -7,8 +7,8 @@ function GameLookup() {
   const [formData, setFormData] = useState("");
 
   const initialResults = [
-    {id: 1, name: "test1"},
-    {id: 2, name: "test2"}
+    {id: 1, name: "test1", platforms: [1]},
+    {id: 2, name: "test2", platforms: [2]}
   ]
 
   const [lookupResults, setLookupResults] = useState(initialResults);
@@ -46,12 +46,17 @@ function GameLookup() {
                 <input type="text" name="game" value={formData} onChange={onChange} />
             </label>
         </form>
-        {lookupResults.map((result) => (
-          <div key={result.id}>
-            <img src={result.url}></img>
-            {result.name}
-          </div>
-        ))}
+        <div className="container">
+          {lookupResults.map((result) => (
+            <div className="game-card" key={result.id}>
+              {result.name}
+              <br></br>
+              <img src={result.url}></img>
+              <br></br>
+              {result.platforms.join(', ')}
+            </div>
+          ))}
+        </div>
     </div>
   )
 }
