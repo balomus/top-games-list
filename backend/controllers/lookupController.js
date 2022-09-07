@@ -90,7 +90,36 @@ const getCover = asyncHandler(async (req, res) => {
     })
 })
 
+// @desc Get platform(s) from API
+// @route POST https://api.igdb.com/v4/platforms
+// @access Public
+const getPlatform = asyncHandler(async (req, res) => {
+    let token = await axios.get(`${serverAPI}accessToken`);
+    token = token.data.access_token;
+
+    let data =  `limit: 500;
+                fields: id,name,abbreviation;`
+    axios({
+        url: igdbAPI + 'platforms',
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Client-ID': process.env.TWITCH_CLIENT_ID,
+            'Authorization': `Bearer ${token}`
+        },
+        data: data
+    })
+    .then((response) => {
+        res.json(response.data);
+    })
+    .catch((error) => {
+        console.log(error);
+        res.json(error);
+    })
+})
+
 module.exports = {
     getGames,
-    getCover
+    getCover,
+    getPlatform
 }
