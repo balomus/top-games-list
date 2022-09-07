@@ -7,11 +7,18 @@ function GameLookup() {
   const [formData, setFormData] = useState("");
 
   const initialResults = [
-    {id: 1, name: "test1", platforms: [1]},
-    {id: 2, name: "test2", platforms: [2]}
+    {id: 1, name: "test1", platforms: [8]},
+    {id: 2, name: "test2", platforms: [39]}
+  ]
+
+  const initialPlatforms = [
+    {id: 8, abbreviation: "PS2", name: "PlayStation 2"},
+    {id: 39, abbreviation: "iOS", name: "iOS"},
+    {id: 6, abbreviation: "PC", name: "PC (Microsoft Windows)"}
   ]
 
   const [lookupResults, setLookupResults] = useState(initialResults);
+  const [platforms, setPlatforms] = useState(initialPlatforms);
 
   const lookupAPICall = () => {
     if (formData !== "")
@@ -36,6 +43,17 @@ function GameLookup() {
     
     return () => clearTimeout(timeoutId);
   }, [formData]);
+
+  useEffect(() => {
+    axios.post(serverAPI + "lookup/platforms/")
+    .then((response) => {
+      console.log(response.data);
+      setPlatforms(response.data);
+    })
+    .catch((error) => {
+      console.log(error);
+    })
+  }, []);
   
   return (
     <div>
@@ -52,8 +70,15 @@ function GameLookup() {
               {result.name}
               <br></br>
               <img src={result.url}></img>
+              {/* {result.platforms.join(', ')} */}
               <br></br>
-              {result.platforms.join(', ')}
+              {result.platforms.map((obj) => {
+                let platform = platforms.find(platform => platform.id == obj);
+                return(
+                <>
+                  {platform.abbreviation != null ? platform.abbreviation + ' ' : platform.name + ' '}
+                </>)
+              })}
             </div>
           ))}
         </div>
