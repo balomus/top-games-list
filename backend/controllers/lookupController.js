@@ -18,7 +18,8 @@ const getGames = asyncHandler(async (req, res) => {
 
     let data = `search: "${name}";
                 fields: name,platforms,cover;
-                where cover != null;`;
+                where cover != null;
+                where platforms != null;`;
 
     axios({
         url: igdbAPI + 'games',
