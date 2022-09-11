@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 function GameLookup() {
 
@@ -38,6 +38,10 @@ function GameLookup() {
     setFormData((e.target.value))
   }
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+  }
+
   useEffect(() => {
     const timeoutId = setTimeout(() => lookupAPICall(), 1000);
     
@@ -58,7 +62,7 @@ function GameLookup() {
   return (
     <div>
         <h2>Lookup</h2>
-        <form>
+        <form onSubmit={handleSubmit}>
             <label>
                 Enter a title:
                 <input type="text" name="game" value={formData} onChange={onChange} />
@@ -75,9 +79,9 @@ function GameLookup() {
               {result.platforms.map((obj) => {
                 let platform = platforms.find(platform => platform.id == obj);
                 return(
-                <>
+                <React.Fragment key={result.id + " " + platform.id}>
                   {platform.abbreviation != null ? platform.abbreviation + ' ' : platform.name + ' '}
-                </>)
+                </React.Fragment>)
               })}
             </div>
           ))}
