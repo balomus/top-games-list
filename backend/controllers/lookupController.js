@@ -18,8 +18,7 @@ const getGames = asyncHandler(async (req, res) => {
 
     let data = `search: "${name}";
                 fields: name,platforms,cover;
-                where cover != null;
-                where platforms != null;`;
+                where cover != null & platforms != null;`;
 
     axios({
         url: igdbAPI + 'games',
@@ -34,22 +33,35 @@ const getGames = asyncHandler(async (req, res) => {
     .then((response) => {
         let listOfCovers = response.data.map(({ cover }) => cover);
 
-        axios.post(`${serverAPI}lookup/cover/${listOfCovers.join(', ')}`)
-        .then((coverResponse) => {
-            for (i = 0; i < response.data.length; i++)
-            {
-                coverObj = coverResponse.data.filter(cover => {
-                    return cover.game == response.data[i].id;
-                });
-                
-                console.log(...coverObj);
-                response.data[i].url = coverObj[0].url;
-            }
+        console.log('listOfCovers = ');
+        console.log(...listOfCovers);
+        console.log(listOfCovers.length === 0);
+
+        if (listOfCovers.length !== 0)
+        {
+            console.log("test");
+            axios.post(`${serverAPI}lookup/cover/${listOfCovers.join(', ')}`)
+            .then((coverResponse) => {
+                for (i = 0; i < response.data.length; i++)
+                {
+                    coverObj = coverResponse.data.filter(cover => {
+                        return cover.game == response.data[i].id;
+                    });
+                    
+                    console.log(...coverObj);
+                    response.data[i].url = coverObj[0].url;
+                }
+                res.json(response.data);
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+        }
+        else
+        {
             res.json(response.data);
-        })
-        .catch((error) => {
-            console.log(error);
-        })
+        }
+
     })
     .catch((error) => {
         console.log(error);
