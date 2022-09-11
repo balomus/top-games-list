@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import Spinner from "./Spinner";
 
 function GameLookup() {
 
@@ -19,12 +20,14 @@ function GameLookup() {
 
   const [lookupResults, setLookupResults] = useState(initialResults);
   const [platforms, setPlatforms] = useState(initialPlatforms);
+  const [isLoading, setIsLoading] = useState(false);
 
   const lookupAPICall = () => {
     if (formData !== "")
     {
       axios.post(serverAPI + "lookup/games/" + formData)
       .then((response) => {
+        setIsLoading(false);
         console.log(response.data);
         setLookupResults(response.data);
       })
@@ -43,6 +46,7 @@ function GameLookup() {
   }
 
   useEffect(() => {
+    setIsLoading(true);
     const timeoutId = setTimeout(() => lookupAPICall(), 1000);
     
     return () => clearTimeout(timeoutId);
@@ -68,7 +72,7 @@ function GameLookup() {
                 <input type="text" name="game" value={formData} onChange={onChange} />
             </label>
         </form>
-        <div className="container">
+        {!isLoading && <div className="container">
           {lookupResults.map((result) => (
             <div className="game-card" key={result.id}>
               {result.name}
@@ -85,7 +89,9 @@ function GameLookup() {
               })}
             </div>
           ))}
-        </div>
+        </div>}
+        {/* {isLoading && <div>Loading...</div>} */}
+        {isLoading && <Spinner />}
     </div>
   )
 }
