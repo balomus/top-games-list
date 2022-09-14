@@ -5,7 +5,7 @@ import Spinner from "./Spinner";
 function GameLookup() {
 
   const serverAPI = "/api/";
-  const [formData, setFormData] = useState("");
+  const [formData, setFormData] = useState("mario");
 
   const initialResults = [
     {id: 1, name: "test1", platforms: [8]},
