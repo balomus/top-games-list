@@ -25,6 +25,7 @@ function GameLookup() {
   const lookupAPICall = () => {
     if (formData !== "")
     {
+      setIsLoading(true);
       axios.post(serverAPI + "lookup/games/" + formData)
       .then((response) => {
         setIsLoading(false);
@@ -46,7 +47,6 @@ function GameLookup() {
   }
 
   useEffect(() => {
-    setIsLoading(true);
     const timeoutId = setTimeout(() => lookupAPICall(), 1000);
     
     return () => clearTimeout(timeoutId);
