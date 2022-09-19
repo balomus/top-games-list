@@ -12,7 +12,7 @@ function App() {
   return (
     <>
       <Router>
-        <div className=''>
+        <div className='app-container'>
           <Header />
             <Routes>
               <Route path='/' element={<Dashboard />} />

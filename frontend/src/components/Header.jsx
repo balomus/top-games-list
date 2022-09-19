@@ -16,40 +16,28 @@ function Header() {
     }
 
     return (
-        <header className="site-header">
-            <div className="wrapper site-header__wrapper">
-                <div className="logo">
-                    <Link to="/">Game Lists</Link>
-                </div>
+        <header className="header-container">
+            <div className="logo header-section">
+                <Link to="/">Game Lists</Link>
+            </div>
+            <div className="header-section">
                 <nav className="nav">
-                    <button className="nav__toggle" aria-expanded="false" type="button">
-                        menu
-                    </button>
-                    <ul className="nav__wrapper">
-                        {user ? (
-                            <li className="nav__item">
-                                <Link to="/login" onClick={onLogout}>
-                                    <FaSignOutAlt /> Logout
-                                </Link>
-                                {/* <button className="btn" onClick={onLogout}>
-                                    <FaSignOutAlt /> Logout
-                                </button> */}
-                            </li>
-                        ) : (
-                            <>
-                                <li className="nav__item">
-                                    <Link to="/login">
-                                        <FaSignInAlt /> Login
-                                    </Link>
-                                </li>
-                                <li className="nav__item">
-                                    <Link to="/register">
-                                        <FaUser /> Register
-                                    </Link>
-                                </li>
-                            </>
-                        )}
-                    </ul>
+                    {user ? (
+                        <>
+                            <Link to="/login" onClick={onLogout}>
+                                <FaSignOutAlt /> Logout
+                            </Link>
+                        </>
+                    ) : (
+                        <nav>
+                            <Link to="/login">
+                                <FaSignInAlt /> Login
+                            </Link>
+                            <Link to="/register">
+                                <FaUser /> Register
+                            </Link>
+                        </nav>
+                    )}
                 </nav>
             </div>
         </header>

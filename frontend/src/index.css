@@ -2,67 +2,40 @@ body {
   color: grey;
   background-color: black;
   text-align: center;
-  font-family: 'Poppins', sans-serif;
-  /* font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+  /* font-family: 'Poppins', sans-serif; */
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif; */
+    sans-serif;
 }
 
 input {
   color: black;
-  background-color: grey;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  /* font-family: 'Poppins', sans-serif; */
 }
 
-.heading p {
-  color: #828282;
+button {
+  /* remove default behavior */
+  appearance: none;
+  -webkit-appearance: none;
+
+  padding: 10px;
+  border: none;
+  background-color: #3F51B5;
+  color: #fff;
+  font-weight: 600;
+  border-radius: 5px;
+  width: 100%;
 }
 
-/* .container {
+.app-container {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 0.5em;
-} */
-
-.game-card {
-  width: 30%;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-img {
-  max-width: 100%;
-}
-
-.loadingSpinnerContainer {
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  /* background-color: rgba(0, 0, 0, 0.5); */
-  z-index: 5000;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.loadingSpinner {
-  width: 64px;
-  height: 64px;
-  border: 8px solid;
-  border-color: #000 transparent #555 transparent;
-  border-radius: 50%;
-  animation: spin 1.2s linear infinite;
-}
-
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
+  max-width: 980px;
+  margin: auto;
 }

@@ -1,7 +1,18 @@
-.container {
+.games-container {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
   gap: 0.5em;
+}
+
+.game-card {
+  width: 30%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+img {
+  max-width: 100%;
 }

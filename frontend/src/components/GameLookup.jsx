@@ -73,7 +73,7 @@ function GameLookup() {
                 <input type="text" name="game" value={formData} onChange={onChange} />
             </label>
         </form>
-        {!isLoading && <div className="container">
+        {!isLoading && <div className="games-container">
           {lookupResults.map((result) => (
             <div className="game-card" key={result.id}>
               {result.name}

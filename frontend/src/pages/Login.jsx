@@ -74,7 +74,7 @@ function Login() {
                             id="email"
                             name="email"
                             value={email}
-                            placeholder="enter your email"
+                            placeholder="Enter your email"
                             onChange={onChange}
                         />
                     </div>
