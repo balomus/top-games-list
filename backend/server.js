@@ -15,6 +15,7 @@ app.use("/api/authenticate", require("./routes/authenticationRoutes"));
 app.use("/api/accessToken", require("./routes/accessTokenRoutes"));
 app.use("/api/lookup", require("./routes/lookupRoutes"));
 app.use("/api/users", require("./routes/userRoutes"));
+app.use("/api/gamelists", require("./routes/gameListRoutes"));
 
 app.get('/api', (req, res) => {
     res.json({ message: 'Basic API response!' })

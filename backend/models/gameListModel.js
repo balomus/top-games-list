@@ -10,15 +10,13 @@ const gameListSchema = mongoose.Schema({
         type: String,
         required: [true, 'Please add a title']
     },
-    games: [
-        {
-            cover: Number,
-            id: Number,
-            name: String,
-            platforms: [String],
-            url: String,
-        }
-    ],
+    games: [{
+        id: Number,
+        cover: Number,
+        name: String,
+        platforms: [Number],
+        url: String,
+    }],
     description: {
         type: String,
         required: [true, 'Please add a description of this game list']

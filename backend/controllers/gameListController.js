@@ -30,6 +30,7 @@ const setGameList = asyncHandler(async (req, res) => {
     }
 
     const gameList = await GameList.create({
+        user: req.user.id,
         title: req.body.title,
         games: req.body.games,
         description: req.body.description,
