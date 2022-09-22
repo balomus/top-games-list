@@ -83,7 +83,7 @@ export const gameListSlice = createSlice({
             .addCase(createGameList.rejected, (state, action) => {
                 state.isLoading = false
                 state.isError = true
-                state.message = aciton.payload
+                state.message = action.payload
             })
             .addCase(getGameLists.pending, (state) => {
                 state.isLoading = true
@@ -96,7 +96,7 @@ export const gameListSlice = createSlice({
             .addCase(getGameLists.rejected, (state, action) => {
                 state.isLoading = false
                 state.isError = true
-                state.message = aciton.payload
+                state.message = action.payload
             })
             .addCase(deleteGameList.pending, (state) => {
                 state.isLoading = true
@@ -111,7 +111,7 @@ export const gameListSlice = createSlice({
             .addCase(deleteGameList.rejected, (state, action) => {
                 state.isLoading = false
                 state.isError = true
-                state.message = aciton.payload
+                state.message = action.payload
             })
     }
 });
