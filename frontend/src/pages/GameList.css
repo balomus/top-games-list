@@ -1,0 +1,17 @@
+
+.gamelist {
+    display: flex;
+    flex-direction: column;
+}
+.game {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    /* width: 100%; */
+    text-align: left;
+}
+
+img {
+    width: 10em;
+    min-width: 10em;
+}

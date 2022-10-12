@@ -12,6 +12,20 @@ const getGameLists = asyncHandler(async (req, res) => {
     res.status(200).json(gameLists);
 });
 
+// @desc Get specific GameList
+// @route GET /api/gamelists/:id
+// @access Public
+const getOneGameList = asyncHandler(async (req, res) => {
+    const gameList = await GameList.findById(req.params.id);
+
+    if (!gameList) {
+        res.status(400);
+        throw new Error('GameList not found');
+    }
+
+    res.status(200).json(gameList);
+})
+
 // @desc Set GameLists
 // @route POST /api/gamelists
 // @access Private
@@ -99,6 +113,7 @@ const deleteGameList = asyncHandler(async (req, res) => {
 
 module.exports = {
     getGameLists,
+    getOneGameList,
     setGameList,
     updateGameList,
     deleteGameList,
