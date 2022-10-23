@@ -30,7 +30,7 @@ function GameLookup() {
       axios.post(serverAPI + "lookup/games/" + formData)
       .then((response) => {
         setIsLoading(false);
-        console.log(response.data);
+        // console.log(response.data);
         setLookupResults(response.data);
       })
       .catch((error) => {
@@ -51,12 +51,13 @@ function GameLookup() {
     const timeoutId = setTimeout(() => lookupAPICall(), 1000);
     
     return () => clearTimeout(timeoutId);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formData]);
 
   useEffect(() => {
     axios.post(serverAPI + "lookup/platforms/")
     .then((response) => {
-      console.log(response.data);
+      // console.log(response.data);
       setPlatforms(response.data);
     })
     .catch((error) => {
@@ -78,11 +79,11 @@ function GameLookup() {
             <div className="game-card" key={result.id}>
               {result.name}
               <br></br>
-              <img src={result.url}></img>
+              <img src={result.url} alt={`${result.name} cover art`}></img>
               {/* {result.platforms.join(', ')} */}
               <br></br>
               {result.platforms.map((obj) => {
-                let platform = platforms.find(platform => platform.id == obj);
+                let platform = platforms.find(platform => platform.id === obj);
                 return(
                 <React.Fragment key={result.id + " " + platform.id}>
                   {platform.abbreviation != null ? platform.abbreviation + ' ' : platform.name + ' '}

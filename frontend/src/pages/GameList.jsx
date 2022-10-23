@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+// import { useSelector, useDispatch } from "react-redux";
 import { useSearchParams } from "react-router-dom";
 import Spinner from "../components/Spinner";
 // import { getGameLists } from "../features/gameLists/gameListSlice";
@@ -12,7 +12,7 @@ const GameList = () => {
 
     const serverAPI = "/api/";
 
-    const [searchParams, setSearchParams] = useSearchParams();
+    const [searchParams] = useSearchParams();
 
     const [gamelist, setGameList] = useState();
 
@@ -31,6 +31,7 @@ const GameList = () => {
 
     useEffect(() => {
         lookupAPICall();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     return ( 
@@ -45,7 +46,7 @@ const GameList = () => {
                             return(
                                 <div className="game" key={game.id}>
                                     <h3>{game.name}</h3>
-                                    <div><img src={game.url}></img></div>
+                                    <div><img src={game.url} alt={`${game.name} cover art`}></img></div>
                                 </div>
                             );
                         })}
@@ -54,7 +55,7 @@ const GameList = () => {
                     <Spinner />
                 )}
             </section>
-            {/* <GameLookup /> */}
+            <GameLookup gamelist={gamelist}/>
         </>
      );
 }

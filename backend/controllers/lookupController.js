@@ -43,7 +43,7 @@ const getGames = asyncHandler(async (req, res) => {
                         return cover.game == response.data[i].id;
                     });
                     
-                    console.log(...coverObj);
+                    // console.log(...coverObj);
                     response.data[i].url = coverObj[0].url;
                 }
                 res.json(response.data);

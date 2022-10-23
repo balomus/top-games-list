@@ -5,7 +5,7 @@ import GameListItem from "../components/GameListItem";
 import Spinner from "../components/Spinner";
 import { getGameLists } from "../features/gameLists/gameListSlice";
 import { reset } from "../features/auth/authSlice";
-import GameLookup from "../components/GameLookup";
+// import GameLookup from "../components/GameLookup";
 
 function Dashboard() {
     const navigate = useNavigate();
@@ -31,7 +31,7 @@ function Dashboard() {
         {
             navigate('/login');
         }
-    }, [user]);
+    }, [user, navigate]);
 
     if (isLoading) {
         return <Spinner />
@@ -56,7 +56,6 @@ function Dashboard() {
                     <h3>You have not created any game lists</h3>
                 )}
             </section>
-            <GameLookup />
         </>
     )
 }
