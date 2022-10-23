@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import Spinner from "./Spinner";
 import './GameLookup.css';
 
-function GameLookup() {
+function GameLookup(props) {
 
   const serverAPI = "/api/";
   const [formData, setFormData] = useState("mario");
@@ -32,6 +32,11 @@ function GameLookup() {
         setIsLoading(false);
         // console.log(response.data);
         setLookupResults(response.data);
+
+        if (props.gamelist !== undefined)
+        {
+          console.log(props.gamelist.games)
+        }
       })
       .catch((error) => {
         console.log(error);

@@ -49,7 +49,7 @@ function Dashboard() {
                 {gameLists.length > 0 ? (
                     <div className="gameLists">
                         {gameLists.map((gameList) => (
-                            <GameListItem key={gameList._id} gameList={gameList} />
+                            <GameListItem key={gameList._id} gamelist={gameList} />
                         ))}
                     </div>
                 ) : (

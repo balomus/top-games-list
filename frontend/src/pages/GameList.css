@@ -15,3 +15,7 @@ img {
     width: 10em;
     min-width: 10em;
 }
+
+.game-image {
+    padding-left: 1em;
+}

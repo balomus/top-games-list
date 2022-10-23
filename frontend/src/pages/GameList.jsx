@@ -21,7 +21,7 @@ const GameList = () => {
     const lookupAPICall = () => {
         axios.get(serverAPI + "gamelists/" + id)
         .then((response) => {
-            console.log(response.data);
+            // console.log(response.data);
             setGameList(response.data);
         })
         .catch((error) => {
@@ -42,11 +42,11 @@ const GameList = () => {
                     <>
                         <h2>{gamelist.title}</h2>
                         <div>{gamelist.description}</div>
-                        {gamelist.games.map((game) => {
+                        {gamelist.games.map((game, index) => {
                             return(
                                 <div className="game" key={game.id}>
-                                    <h3>{game.name}</h3>
-                                    <div><img src={game.url} alt={`${game.name} cover art`}></img></div>
+                                    <h3>{index + 1}. {game.name}</h3>
+                                    <div><img src={game.url} alt={`${game.name} cover art`} className="game-image"></img></div>
                                 </div>
                             );
                         })}
