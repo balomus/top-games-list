@@ -19,3 +19,13 @@ img {
 .game-image {
     padding-left: 1em;
 }
+
+h3 > button {
+    width: 5em;
+}
+h3 {
+    width: 100%;
+}
+button.x {
+    background-color: red;
+}

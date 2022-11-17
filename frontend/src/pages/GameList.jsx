@@ -1,14 +1,13 @@
+import { FaArrowUp, FaArrowDown } from "react-icons/fa";
+import { HiX } from "react-icons/hi";
 import { useEffect, useState } from "react";
-// import { useSelector, useDispatch } from "react-redux";
 import { useSearchParams } from "react-router-dom";
 import Spinner from "../components/Spinner";
-// import { getGameLists } from "../features/gameLists/gameListSlice";
 import axios from "axios";
 import GameLookup from "../components/GameLookup";
 import "./GameList.css";
 
 const GameList = () => {
-    // const dispatch = useDispatch();
 
     const serverAPI = "/api/";
 
@@ -29,9 +28,39 @@ const GameList = () => {
         })
     }
 
+    const handleClick = (command, index) => {
+        if (command === "up")
+        {
+            if (index !== 0)
+            {
+                let newGamelist = {...gamelist};
+                const game = newGamelist.games[index];
+                newGamelist.games.splice(index, 1);
+                newGamelist.games.splice(index - 1, 0, game);
+                setGameList(newGamelist);
+            }
+        }
+        if (command === "down")
+        {
+            if (index !== gamelist.games.length - 1)
+            {
+                let newGamelist = {...gamelist};
+                const game = newGamelist.games[index];
+                newGamelist.games.splice(index, 1);
+                newGamelist.games.splice(index + 1, 0, game);
+                setGameList(newGamelist);                
+            }
+        }
+        if (command === "delete")
+        {
+            let newGamelist = {...gamelist};
+            newGamelist.games.splice(index, 1);
+            setGameList(newGamelist); 
+        }
+    }
+
     useEffect(() => {
         lookupAPICall();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     return ( 
@@ -45,7 +74,14 @@ const GameList = () => {
                         {gamelist.games.map((game, index) => {
                             return(
                                 <div className="game" key={game.id}>
-                                    <h3>{index + 1}. {game.name}</h3>
+                                    <h3>
+                                        {index + 1}. {game.name}
+                                    </h3>
+                                    <div>
+                                        <div><button onClick={() => handleClick('up', index)}><FaArrowUp /></button></div>
+                                        <div><button onClick={() => handleClick('delete', index)} className="x"><HiX /></button></div>
+                                        <div><button onClick={() => handleClick('down', index)}><FaArrowDown /></button></div>
+                                    </div>
                                     <div><img src={game.url} alt={`${game.name} cover art`} className="game-image"></img></div>
                                 </div>
                             );
