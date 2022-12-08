@@ -64,6 +64,26 @@ export const deleteGameList = createAsyncThunk(
     }  
 );
 
+// Update user gamelist
+export const updateGameList = createAsyncThunk(
+    "gamelists/update",
+    async (id, thunkAPI) => {
+        try {
+            const token = thunkAPI.getState().auth.user.token;
+            console.log("from gameListSlice " + token);
+            return await gameListService.updateGameList(id, token);
+        } catch (error) {
+            const message = 
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.message) ||
+                error.message ||
+                error.toString();
+            return thunkAPI.rejectWithValue(message);
+        }
+    }
+)
+
 export const gameListSlice = createSlice({
     name: "gameList",
     initialState,
@@ -109,6 +129,20 @@ export const gameListSlice = createSlice({
                 )
             })
             .addCase(deleteGameList.rejected, (state, action) => {
+                state.isLoading = false
+                state.isError = true
+                state.message = action.payload
+            })
+            .addCase(updateGameList.pending, (state) => {
+                state.isLoading = true
+            })
+            .addCase(updateGameList.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.isSuccess = true
+                // state.gameLists
+                console.log(action.payload)
+            })
+            .addCase(updateGameList.rejected, (state, action) => {
                 state.isLoading = false
                 state.isError = true
                 state.message = action.payload

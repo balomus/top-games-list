@@ -16,7 +16,8 @@ function Dashboard() {
 
     useEffect(() => {
         if (isError) {
-            console.log(message);
+            // TODO uncomment this and figure out why I'm getting an error in console after logout.
+            // console.log(message);
         }
 
         dispatch(getGameLists());

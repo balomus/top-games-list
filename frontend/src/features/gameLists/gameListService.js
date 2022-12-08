@@ -41,10 +41,24 @@ const deleteGameList = async (gameListId, token) => {
     return response.data;
 }
 
+// Update user gamelist
+const updateGameList = async (gameListId, token) => {
+    console.log("TOKEN IS " + token)
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    }
+    const response = await axios.put(API_URL + gameListId, config);
+
+    return response.data;
+}
+
 const gameListService = {
     createGameList,
     getGameLists,
     deleteGameList,
+    updateGameList,
 }
 
 export default gameListService;
