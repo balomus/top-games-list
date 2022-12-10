@@ -70,7 +70,6 @@ export const updateGameList = createAsyncThunk(
     async (id, thunkAPI) => {
         try {
             const token = thunkAPI.getState().auth.user.token;
-            console.log("from gameListSlice " + token);
             return await gameListService.updateGameList(id, token);
         } catch (error) {
             const message = 

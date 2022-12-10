@@ -3,7 +3,7 @@ import { HiX } from "react-icons/hi";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import Spinner from "../components/Spinner";
-import GameLookup from "../components/GameLookup";
+// import GameLookup from "../components/GameLookup";
 import "./GameList.css";
 import { getGameLists, updateGameList } from "../features/gameLists/gameListSlice";
 import { useSelector, useDispatch } from 'react-redux';
@@ -22,7 +22,6 @@ const GameList = () => {
     useEffect(() => {
         const found = gameLists.find(e => e._id === searchParams.get('id'));
         setLocalGameList(found);
-        console.log(found);
     }, [gameLists, searchParams])
 
     const handleClick = (command, index) => {
@@ -55,22 +54,15 @@ const GameList = () => {
     }
 
     const handleSave = () => {
-        // axios.get(serverAPI + "gamelists/" + id)
-        // .then((response) => {
-        //     if (JSON.stringify(response.data) === JSON.stringify(gamelist))
-        //     {
-        //         console.log('Same game list');
-        //     }
-        //     else
-        //     {
-        //         console.log('Different lists');
-        //         // dispatch(updateGameList(gamelist._id));
-        //         dispatch(updateGameList(gamelist));
-        //     }
-        // })
-        // .catch((error) => {
-        //     console.log(error);
-        // })
+        if (JSON.stringify(localGameList) === JSON.stringify(gameLists.find(e => e._id === searchParams.get('id'))))
+        {
+            console.log('Same game list, no change made')
+        }
+        else
+        {
+            console.log('Different game list, updating game list in DB')
+            dispatch(updateGameList(localGameList))
+        }
     }
 
     return ( 
