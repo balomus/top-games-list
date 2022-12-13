@@ -2,8 +2,10 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Spinner from "./Spinner";
 import './GameLookup.css';
+import { HiX } from "react-icons/hi";
+import { FaPlus } from "react-icons/fa";
 
-function GameLookup(props) {
+function GameLookup({ localGameList, setLocalGameList }) {
 
   const serverAPI = "/api/";
   const [formData, setFormData] = useState("mario");
@@ -33,10 +35,10 @@ function GameLookup(props) {
         // console.log(response.data);
         setLookupResults(response.data);
 
-        if (props.gamelist !== undefined)
-        {
-          console.log(props.gamelist.games)
-        }
+        // if (props.gamelist !== undefined)
+        // {
+        //   console.log(props.gamelist.games)
+        // }
       })
       .catch((error) => {
         console.log(error);
@@ -52,7 +54,28 @@ function GameLookup(props) {
     e.preventDefault();
   }
 
+  const handleClick = (command, game) => {
+    const newGameListObj = {...localGameList};
+    const newGameList = [...localGameList.games];
+    
+    if (command === 'delete')
+    {
+      const found = newGameList.find(obj => obj.id === game.id);
+      const index = newGameList.indexOf(found);
+      newGameList.splice(index, 1);
+    }
+
+    if (command === 'add')
+    {
+      newGameList.push(game)
+    }
+
+    newGameListObj.games = newGameList;
+    setLocalGameList(newGameListObj);
+  }
+
   useEffect(() => {
+    // console.log(localGameList.games);
     const timeoutId = setTimeout(() => lookupAPICall(), 1000);
     
     return () => clearTimeout(timeoutId);
@@ -94,6 +117,19 @@ function GameLookup(props) {
                   {platform.abbreviation != null ? platform.abbreviation + ' ' : platform.name + ' '}
                 </React.Fragment>)
               })}
+              {/* If localGameList exists, and the game is in the list, render a fragment 
+                  that allows the user to remove the game */}
+              {localGameList && localGameList.games.filter(value => value.id === result.id).length > 0 ? (
+                <>
+                  {/* in game list */}
+                  <div><button onClick={() => handleClick('delete', result)} className="x"><HiX /></button></div>
+                </>
+              ) : (
+                <>
+                  {/* not in game list */}
+                  <div><button onClick={() => handleClick('add', result)} className=""><FaPlus /></button></div>
+                </>
+              )}
             </div>
           ))}
         </div>}

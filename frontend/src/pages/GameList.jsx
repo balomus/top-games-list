@@ -3,10 +3,10 @@ import { HiX } from "react-icons/hi";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import Spinner from "../components/Spinner";
-// import GameLookup from "../components/GameLookup";
 import "./GameList.css";
 import { getGameLists, updateGameList } from "../features/gameLists/gameListSlice";
 import { useSelector, useDispatch } from 'react-redux';
+import GameLookup from "../components/GameLookup";
 
 const GameList = () => {
 
@@ -23,6 +23,20 @@ const GameList = () => {
         const found = gameLists.find(e => e._id === searchParams.get('id'));
         setLocalGameList(found);
     }, [gameLists, searchParams])
+
+    const onChange = (e) => {
+        let gameList = {...localGameList};
+        if (e.target.name === 'title')
+        {
+            gameList.title = e.target.value;
+            setLocalGameList(gameList);
+        }
+        else if (e.target.name === 'description')
+        {
+            gameList.description = e.target.value;
+            setLocalGameList(gameList);
+        }
+    }
 
     const handleClick = (command, index) => {
         const newGameListObj = {...localGameList};
@@ -71,8 +85,11 @@ const GameList = () => {
                 {localGameList ? (
                     <>
                         ID: {localGameList._id}
-                        <h2>{localGameList.title}</h2>
-                        <div>{localGameList.description}</div>
+                        <h2>
+                            <input type="text" name="title" value={localGameList.title} onChange={onChange} />
+                            {/* {localGameList.title} */}
+                        </h2>
+                        <div><input type="text" name="description" value={localGameList.description} onChange={onChange} /></div>
                         {localGameList.games.map((game, index) => {
                             return(
                                 <div className="game" key={game.id}>
@@ -93,6 +110,9 @@ const GameList = () => {
                 ) : (
                     <Spinner />
                 )}
+            </section>
+            <section className="gameLookup">
+                <GameLookup localGameList={localGameList} setLocalGameList={setLocalGameList} />
             </section>
         </>
      );
