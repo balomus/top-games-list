@@ -70,12 +70,15 @@ const GameList = () => {
     const handleSave = () => {
         if (JSON.stringify(localGameList) === JSON.stringify(gameLists.find(e => e._id === searchParams.get('id'))))
         {
-            console.log('Same game list, no change made')
+            console.log('Same game list, no change made');
         }
         else
         {
-            console.log('Different game list, updating game list in DB')
-            dispatch(updateGameList(localGameList))
+            console.log('Different game list, updating game list in DB');
+            console.log('gameLists version:');
+            console.log(gameLists.find(e => e._id === searchParams.get('id')));
+            dispatch(updateGameList(localGameList));
+            dispatch(getGameLists());
         }
     }
 
