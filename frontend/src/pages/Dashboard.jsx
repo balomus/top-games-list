@@ -1,9 +1,9 @@
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, redirect } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux"
 import GameListItem from "../components/GameListItem";
 import Spinner from "../components/Spinner";
-import { getGameLists } from "../features/gameLists/gameListSlice";
+import { getGameLists, createGameList } from "../features/gameLists/gameListSlice";
 import { reset } from "../features/auth/authSlice";
 // import GameLookup from "../components/GameLookup";
 
@@ -34,6 +34,12 @@ function Dashboard() {
         }
     }, [user, navigate]);
 
+    const handleClick = async () => {
+        const resp = await dispatch(createGameList({"title": "Title", "games": [], "description": "Game list description."}));
+        console.log(resp.payload._id);
+        navigate("/gamelist?id=" + resp.payload._id);
+    }
+
     if (isLoading) {
         return <Spinner />
     }
@@ -43,7 +49,7 @@ function Dashboard() {
             <section className="heading">
                 <h1>Welcome {user && user.name}</h1>
                 <p>Games List Dashboard</p>
-                <button>Create new game list</button>
+                <button onClick={handleClick}>Create new game list</button>
             </section>
 
             <section className="content">

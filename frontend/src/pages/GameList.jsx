@@ -12,7 +12,7 @@ const GameList = () => {
 
     const dispatch = useDispatch();
     const [searchParams] = useSearchParams();
-    const { gameLists } = useSelector((state) => state.gameLists);
+    const { gameLists, isLoading } = useSelector((state) => state.gameLists);
     const [localGameList, setLocalGameList] = useState();
     
     useEffect(() => {
@@ -67,19 +67,26 @@ const GameList = () => {
         setLocalGameList(newGameListObj);
     }
 
-    const handleSave = () => {
+    const handleSave = async () => {
         if (JSON.stringify(localGameList) === JSON.stringify(gameLists.find(e => e._id === searchParams.get('id'))))
         {
             console.log('Same game list, no change made');
+            alert("No changes made to the game list. Please make changes first.")
         }
         else
         {
             console.log('Different game list, updating game list in DB');
             console.log('gameLists version:');
             console.log(gameLists.find(e => e._id === searchParams.get('id')));
-            dispatch(updateGameList(localGameList));
+            await dispatch(updateGameList(localGameList));
             dispatch(getGameLists());
+            alert("Game list has been updated successfully.")
         }
+    }
+
+    if (isLoading)
+    {
+        return (<Spinner />)
     }
 
     return ( 
@@ -108,7 +115,12 @@ const GameList = () => {
                                 </div>
                             );
                         })}
-                        <button onClick={handleSave}>Save</button>
+                        {JSON.stringify(localGameList) === JSON.stringify(gameLists.find(e => e._id === searchParams.get('id'))) ? (
+                            <button disabled>Save</button>
+                        ) : (
+                            <button onClick={handleSave}>Save</button>
+                        )}
+                        
                     </>
                 ) : (
                     <Spinner />
