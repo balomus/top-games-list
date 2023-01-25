@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useNavigate, redirect } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux"
 import GameListItem from "../components/GameListItem";
 import Spinner from "../components/Spinner";
@@ -36,7 +36,6 @@ function Dashboard() {
 
     const handleClick = async () => {
         const resp = await dispatch(createGameList({"title": "Title", "games": [], "description": "Game list description."}));
-        console.log(resp.payload._id);
         navigate("/gamelist?id=" + resp.payload._id);
     }
 
