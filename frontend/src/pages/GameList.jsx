@@ -20,7 +20,7 @@ const GameList = () => {
     const [owner, setOwner] = useState(false);
 
     const checkUser = () => {
-        if (typeof window !== "undefined" && localGameList !== undefined)
+        if (localGameList !== undefined)
         {
             const user = JSON.parse(localStorage.getItem("user"));
             if (user === null)
