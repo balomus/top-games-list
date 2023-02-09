@@ -68,7 +68,7 @@ const GameList = () => {
         const fetchData = async () => {
             const response = await axios.get('/api/gamelists/' + searchParams.get('id'));
             setLocalGameList(response.data);
-            checkUser();
+            // checkUser();
             console.log("test");
         }
         fetchData();
