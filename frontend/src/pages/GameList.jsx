@@ -14,62 +14,38 @@ const GameList = () => {
     const dispatch = useDispatch();
     const [searchParams] = useSearchParams();
     const { gameLists, isLoading } = useSelector((state) => state.gameLists);
+    const { user } = useSelector((state) => state.auth);
     const [localGameList, setLocalGameList] = useState();
 
-    const [userID, setUserID] = useState()
-    const [owner, setOwner] = useState(false);
-
-    const checkUser = () => {
-        if (localGameList !== undefined)
-        {
-            const user = JSON.parse(localStorage.getItem("user"));
-            if (user === null)
-            {
-                setUserID("unauthenticated");
-                setOwner(false);
-            }
-            else
-            {
-                setUserID(user._id);
-                
-                if (user._id.toString() === localGameList.user.toString())
-                {
-                    setOwner(true);
-                }
-            }
-        }
-
-    }
-
-    // useEffect(() => {
-    //     checkUser();
-    // }, [])
+    const [owner, setOwner] = useState();
     
     useEffect(() => {
         dispatch(getGameLists());
     }, [dispatch])
 
-    // useEffect(() => {
-    //     if (user === null)
-    //     {
-    //         setOwner(false);
-    //     }
-    //     else
-    //     {
-    //         if (user._id === localGameList.user)
-    //         {
-    //             setOwner(true);
-    //         }
-    //     }
-    // }, [user])  
-
     useEffect(() => {
-        // const found = gameLists.find(e => e._id === searchParams.get('id'));
         const fetchData = async () => {
             const response = await axios.get('/api/gamelists/' + searchParams.get('id'));
             setLocalGameList(response.data);
-            // checkUser();
-            console.log("test");
+            // console.log(response.data.user)
+            if (user)
+            {
+                // console.log("user exists")
+                if (user._id === response.data.user)
+                {
+                    // console.log("same user")
+                    setOwner(true);
+                }
+                else
+                {
+                    // console.log("different user")
+                    setOwner(false);
+                }
+            }
+            else
+            {
+                // console.log("no user")
+            }
         }
         fetchData();
     }, [gameLists, searchParams])
@@ -144,8 +120,6 @@ const GameList = () => {
             <section className="gamelist">
                 {localGameList ? (
                     <>
-                        userID: {userID}<br></br>
-                        GameList Owner? {owner.toString()}<br></br>
                         Gamelist ID: {localGameList._id}
                         <h2>
                             { owner ?
