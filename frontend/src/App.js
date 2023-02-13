@@ -13,7 +13,7 @@ function App() {
   return (
     <>
       <Router>
-        <div className='app-container'>
+        <div className='app-container' id='root'>
           <Header />
             <Routes>
               <Route path='/' element={<Dashboard />} />

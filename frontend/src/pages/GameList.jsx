@@ -4,10 +4,14 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import Spinner from "../components/Spinner";
 import "./GameList.css";
+import "../components/GameLookup.css";
 import { getGameLists, updateGameList } from "../features/gameLists/gameListSlice";
 import { useSelector, useDispatch } from 'react-redux';
 import GameLookup from "../components/GameLookup";
 import axios from 'axios';
+import Modal from 'react-modal';
+
+Modal.setAppElement('#root');
 
 const GameList = () => {
 
@@ -16,8 +20,8 @@ const GameList = () => {
     const { gameLists, isLoading } = useSelector((state) => state.gameLists);
     const { user } = useSelector((state) => state.auth);
     const [localGameList, setLocalGameList] = useState();
-
     const [owner, setOwner] = useState();
+    const [modalIsOpen, setIsOpen] = useState(false);
     
     useEffect(() => {
         dispatch(getGameLists());
@@ -27,24 +31,20 @@ const GameList = () => {
         const fetchData = async () => {
             const response = await axios.get('/api/gamelists/' + searchParams.get('id'));
             setLocalGameList(response.data);
-            // console.log(response.data.user)
             if (user)
             {
-                // console.log("user exists")
                 if (user._id === response.data.user)
                 {
-                    // console.log("same user")
                     setOwner(true);
                 }
                 else
                 {
-                    // console.log("different user")
                     setOwner(false);
                 }
             }
             else
             {
-                // console.log("no user")
+                setOwner(false);
             }
         }
         fetchData();
@@ -110,6 +110,18 @@ const GameList = () => {
         }
     }
 
+    const openModal = () => {
+        setIsOpen(true);
+    }
+
+    const afterOpenModal = () => {
+        // console.log("afterOpenModal ran");
+    }
+
+    const closeModal = () => {
+        setIsOpen(false);
+    }
+
     if (isLoading)
     {
         return (<Spinner />)
@@ -117,10 +129,24 @@ const GameList = () => {
 
     return ( 
         <>
+            { owner &&
+            <section className="gameLookup">
+                <button onClick={openModal}>Add Games</button>
+                <Modal
+                    isOpen={modalIsOpen}
+                    onAfterOpen={afterOpenModal}
+                    onRequestClose={closeModal}
+                    style={ { content: { backgroundColor: 'black' } } }
+                    contentLabel="Game Lookup Modal"
+                >
+                    <GameLookup localGameList={localGameList} setLocalGameList={setLocalGameList} closeModal={closeModal} />
+                </Modal>
+            </section>
+            }
             <section className="gamelist">
                 {localGameList ? (
                     <>
-                        Gamelist ID: {localGameList._id}
+                        {/* Gamelist ID: {localGameList._id} */}
                         <h2>
                             { owner ?
                                 <input type="text" name="title" value={localGameList.title} onChange={onChange} />
@@ -174,11 +200,6 @@ const GameList = () => {
                     <Spinner />
                 )}
             </section>
-            { owner &&
-            <section className="gameLookup">
-                <GameLookup localGameList={localGameList} setLocalGameList={setLocalGameList} />
-            </section>
-            }
             
         </>
      );

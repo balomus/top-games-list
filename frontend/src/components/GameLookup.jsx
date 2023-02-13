@@ -5,7 +5,7 @@ import './GameLookup.css';
 import { HiX } from "react-icons/hi";
 import { FaPlus } from "react-icons/fa";
 
-function GameLookup({ localGameList, setLocalGameList }) {
+function GameLookup({ localGameList, setLocalGameList, closeModal }) {
 
   const serverAPI = "/api/";
   const [formData, setFormData] = useState("mario");
@@ -21,9 +21,9 @@ function GameLookup({ localGameList, setLocalGameList }) {
     {id: 6, abbreviation: "PC", name: "PC (Microsoft Windows)"}
   ]
 
-  const [lookupResults, setLookupResults] = useState(initialResults);
+  const [lookupResults, setLookupResults] = useState();
   const [platforms, setPlatforms] = useState(initialPlatforms);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const lookupAPICall = () => {
     if (formData !== "")
@@ -95,6 +95,7 @@ function GameLookup({ localGameList, setLocalGameList }) {
   
   return (
     <div>
+      <button onClick={closeModal}>Close Window</button>
         <h2>Lookup</h2>
         <form onSubmit={handleSubmit}>
             <label>
@@ -103,14 +104,14 @@ function GameLookup({ localGameList, setLocalGameList }) {
             </label>
         </form>
         {!isLoading && <div className="games-container">
-          {lookupResults.map((result) => (
+          {lookupResults?.map((result) => (
             <div className="game-card" key={result.id}>
               {result.name}
               <br></br>
               <img src={result.url} alt={`${result.name} cover art`}></img>
               {/* {result.platforms.join(', ')} */}
               <br></br>
-              {result.platforms.map((obj) => {
+              {result.platforms?.map((obj) => {
                 let platform = platforms.find(platform => platform.id === obj);
                 return(
                 <React.Fragment key={result.id + " " + platform.id}>
