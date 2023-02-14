@@ -1,7 +1,7 @@
-import { FaArrowUp, FaArrowDown } from "react-icons/fa";
+import { FaArrowUp, FaArrowDown, FaShareAlt } from "react-icons/fa";
 import { HiX } from "react-icons/hi";
 import { useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import Spinner from "../components/Spinner";
 import "./GameList.css";
 import "../components/GameLookup.css";
@@ -61,6 +61,30 @@ const GameList = () => {
         {
             gameList.description = e.target.value;
             setLocalGameList(gameList);
+        }
+    }
+
+    const handleShare = async (e) => {
+        e.preventDefault();
+        console.log('Share link clicked');
+        console.log(window.location.href);
+        console.log('window.isSecureContext = ' + window.isSecureContext)
+        if (navigator.clipboard)
+        {
+            console.log('navigator.clipboard exists')
+        }
+        else
+        {
+            console.log('navigator.clipboard does not exist');
+        }
+        try 
+        {
+            await navigator.clipboard.writeText(window.location.href);
+            alert("URL copied to clipboard");
+        }
+        catch (err)
+        {
+            console.error('Could not write to clipboard', err);
         }
     }
 
@@ -147,23 +171,29 @@ const GameList = () => {
                 {localGameList ? (
                     <>
                         {/* Gamelist ID: {localGameList._id} */}
-                        <h2>
+                        <>
                             { owner ?
-                                <input type="text" name="title" value={localGameList.title} onChange={onChange} />
+                                <div className="title">
+                                    <label >Title:</label>
+                                    <div><input type="text" name="title" value={localGameList.title} onChange={onChange} /></div>
+                                </div>
                             : 
-                                <>{localGameList.title}</>
+                                <h2>{localGameList.title}</h2>
                             }
                             
                             {/* {localGameList.title} */}
-                        </h2>
-                        <h3>
+                        </>
+                        <>
                             { owner ? 
-                                <input type="text" name="description" value={localGameList.description} onChange={onChange} />
+                                <div className="description">
+                                    <label>Description:</label>
+                                    <div><input type="text" name="description" value={localGameList.description} onChange={onChange} /></div>
+                                </div>
                             : 
-                                <>{localGameList.description}</>
+                                <h3>{localGameList.description}</h3>
                             }
-                            
-                        </h3>
+                            <Link onClick={handleShare}><FaShareAlt /></Link>
+                        </>
                         {localGameList.games.map((game, index) => {
                             return(
                                 <div className="game" key={game.id}>
@@ -172,7 +202,7 @@ const GameList = () => {
                                     </h3>
 
                                     { owner && 
-                                    <div>
+                                    <div className="button-controls">
                                         <div><button onClick={() => handleClick('up', index)}><FaArrowUp /></button></div>
                                         <div><button onClick={() => handleClick('delete', index)} className="x"><HiX /></button></div>
                                         <div><button onClick={() => handleClick('down', index)}><FaArrowDown /></button></div>

@@ -3,12 +3,20 @@
     display: flex;
     flex-direction: column;
 }
+.title, .description {
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
 .game {
     display: flex;
     align-items: center;
     justify-content: space-between;
     /* width: 100%; */
     text-align: left;
+}
+
+.button-controls {
+    padding-left: 1em;
 }
 
 img {
