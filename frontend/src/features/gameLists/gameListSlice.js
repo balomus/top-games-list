@@ -110,7 +110,6 @@ export const gameListSlice = createSlice({
             .addCase(getGameLists.fulfilled, (state, action) => {
                 state.isLoading = false
                 state.isSuccess = true
-                state.isError = false
                 state.gameLists = action.payload
             })
             .addCase(getGameLists.rejected, (state, action) => {
