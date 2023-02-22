@@ -48,6 +48,7 @@ const GameList = () => {
             }
         }
         fetchData();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [gameLists, searchParams])
 
     const onChange = (e) => {

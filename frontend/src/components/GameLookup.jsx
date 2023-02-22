@@ -10,10 +10,10 @@ function GameLookup({ localGameList, setLocalGameList, closeModal }) {
   const serverAPI = "/api/";
   const [formData, setFormData] = useState("mario");
 
-  const initialResults = [
-    {id: 1, name: "test1", platforms: [8]},
-    {id: 2, name: "test2", platforms: [39]}
-  ]
+  // const initialResults = [
+  //   {id: 1, name: "test1", platforms: [8]},
+  //   {id: 2, name: "test2", platforms: [39]}
+  // ]
 
   const initialPlatforms = [
     {id: 8, abbreviation: "PS2", name: "PlayStation 2"},
