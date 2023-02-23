@@ -3,9 +3,7 @@
 This is a simple CRUD app that allows users to create accounts, log in, create lists of their favorite video games, and share those lists with friends.
 
 ## Check it out here!
-https://top-games-list-fe.onrender.com/
-
-*NOTE*: This app is hosted on Render.com using their free tier. The backend will take **~30 seconds** to spin up from sleep on initial load. It will go to sleep again after 15 minutes of inactivity.
+https://top-games-list.netlify.app/
 
 ## Notable tools and technologies used
 MongoDB
