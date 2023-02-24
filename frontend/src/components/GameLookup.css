@@ -16,3 +16,12 @@
 img {
   max-width: 100%;
 }
+
+@media (max-width: 1024px) {
+  .game-card {
+    width: 100%;
+    white-space: normal;
+    overflow: visible;
+    text-overflow: visible;
+  }
+}
