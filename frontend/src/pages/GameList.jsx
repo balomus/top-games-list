@@ -10,6 +10,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import GameLookup from "../components/GameLookup";
 import axios from 'axios';
 import Modal from 'react-modal';
+import { toast } from "react-toastify";
 
 Modal.setAppElement('#root');
 
@@ -81,7 +82,7 @@ const GameList = () => {
         try 
         {
             await navigator.clipboard.writeText(window.location.href);
-            alert("URL copied to clipboard");
+            toast.info("URL Copied to clipboard");
         }
         catch (err)
         {
@@ -122,7 +123,7 @@ const GameList = () => {
         if (JSON.stringify(localGameList) === JSON.stringify(gameLists.find(e => e._id === searchParams.get('id'))))
         {
             console.log('Same game list, no change made');
-            alert("No changes made to the game list. Please make changes first.")
+            toast.error("No changes made to the game list. Please make changes first.");
         }
         else
         {
@@ -131,7 +132,7 @@ const GameList = () => {
             console.log(gameLists.find(e => e._id === searchParams.get('id')));
             await dispatch(updateGameList(localGameList));
             dispatch(getGameLists());
-            alert("Game list has been updated successfully.")
+            toast.success("Game list has been updated successfully.");
         }
     }
 
