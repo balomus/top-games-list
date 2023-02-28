@@ -52,6 +52,24 @@ const GameList = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [gameLists, searchParams])
 
+    useEffect(() => {
+        window.addEventListener('beforeunload', alertUser)
+        return () => {
+            window.removeEventListener('beforeunload', alertUser)
+        }
+    }, [localGameList])
+
+    const alertUser = (e) => {
+        let sameList = JSON.stringify(localGameList) === JSON.stringify(gameLists.find(e => e._id === searchParams.get('id')));
+        if (!sameList)
+        {
+            e.preventDefault();
+            e.returnValue = '';
+            return;
+        }
+        return;
+    }
+
     const onChange = (e) => {
         let gameList = {...localGameList};
         if (e.target.name === 'title')
