@@ -63,11 +63,12 @@ const GameList = () => {
             }
             return;
         }
-        
+
         window.addEventListener('beforeunload', alertUser)
         return () => {
             window.removeEventListener('beforeunload', alertUser)
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [localGameList])
 
 
