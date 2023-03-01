@@ -29,3 +29,5 @@ React
 [bcrypt](https://www.npmjs.com/package/bcrypt) to hash user passwords
 
 [React Icons](https://react-icons.github.io/react-icons/) for several icons throughout the app
+
+[Game boy advance icons created by Freepik - Flaticon](https://www.flaticon.com/free-icons/game-boy-advance)
