@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { login, reset } from "../features/auth/authSlice";
 import Spinner from "../components/Spinner";
+import RecentlyUpdatedLists from "../components/RecentlyUpdatedLists";
 
 function Login() {
     const [formData, setFormData] = useState({
@@ -97,6 +98,11 @@ function Login() {
                         </button>
                     </div>
                 </form>
+            </section>
+
+            <section>
+                <h2>Recently updated game lists:</h2>
+                <RecentlyUpdatedLists />
             </section>
         </>
     )

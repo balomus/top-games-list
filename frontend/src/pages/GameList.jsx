@@ -23,12 +23,14 @@ const GameList = () => {
     const [localGameList, setLocalGameList] = useState();
     const [owner, setOwner] = useState();
     const [modalIsOpen, setIsOpen] = useState(false);
+    const [listCreator, setListCreator] = useState("");
     
     useEffect(() => {
         dispatch(getGameLists());
     }, [dispatch])
 
     useEffect(() => {
+        
         const fetchData = async () => {
             const response = await axios.get('/api/gamelists/' + searchParams.get('id'));
             setLocalGameList(response.data);
@@ -47,6 +49,8 @@ const GameList = () => {
             {
                 setOwner(false);
             }
+            const creatorNameResponse = await axios.get('api/users/' + response.data.user);
+            setListCreator(creatorNameResponse.data);
         }
         fetchData();
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -55,7 +59,7 @@ const GameList = () => {
     useEffect(() => {
         const alertUser = (e) => {
             let sameList = JSON.stringify(localGameList) === JSON.stringify(gameLists.find(e => e._id === searchParams.get('id')));
-            if (!sameList)
+            if (!sameList && owner)
             {
                 e.preventDefault();
                 e.returnValue = '';
@@ -211,6 +215,11 @@ const GameList = () => {
                             }
                             
                             {/* {localGameList.title} */}
+                        </>
+                        <>
+                            { !owner &&
+                                <>By {listCreator}</>
+                            }
                         </>
                         <>
                             { owner ? 
