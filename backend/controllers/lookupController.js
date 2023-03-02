@@ -16,9 +16,10 @@ const getGames = asyncHandler(async (req, res) => {
 
     let name = req.params.name;
 
-    let data = `search: "${name}";
+    let data = `limit: 24;
+                search: "${name}";
                 fields: name,platforms,cover;
-                where cover != null & platforms != null;`;
+                where cover != null & platforms != null & aggregated_rating != null;`;
 
     axios({
         url: igdbAPI + 'games',
@@ -73,7 +74,8 @@ const getCover = asyncHandler(async (req, res) => {
 
     let id = req.params.id;
 
-    let data = `where id = (${id});
+    let data = `limit 500;
+                where id = (${id});
                 fields: image_id,game;`;
 
     axios({
@@ -126,8 +128,66 @@ const getPlatform = asyncHandler(async (req, res) => {
     })
 })
 
+// @desc Get top 24 games from API
+// @route POST https://api.igdb.com/v4/games
+// @access Public
+const getInitialGames = asyncHandler(async (req, res) => {
+    let token = await axios.get(`${serverAPI}accessToken`);
+    token = token.data.access_token;
+    // console.log(token);
+
+    let data = `fields: name,platforms,cover;
+                sort aggregated_rating desc;
+                where cover != null & platforms != null & aggregated_rating_count > 20 & aggregated_rating != null;
+                limit 24;`;
+
+    axios({
+        url: igdbAPI + 'games',
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Client-ID': process.env.TWITCH_CLIENT_ID,
+            'Authorization': `Bearer ${token}`
+        },
+        data: data
+    })
+    .then((response) => {
+        let listOfCovers = response.data.map(({ cover }) => cover);
+
+        if (listOfCovers.length !== 0)
+        {
+            axios.post(`${serverAPI}lookup/cover/${listOfCovers.join(', ')}`)
+            .then((coverResponse) => {
+                for (i = 0; i < response.data.length; i++)
+                {
+                    coverObj = coverResponse.data.filter(cover => {
+                        return cover.game == response.data[i].id;
+                    });
+                    
+                    // console.log(...coverObj);
+                    response.data[i].url = coverObj[0].url;
+                }
+                res.json(response.data);
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+        }
+        else
+        {
+            res.json(response.data);
+        }
+
+    })
+    .catch((error) => {
+        console.log(error);
+    })
+    
+})
+
 module.exports = {
     getGames,
     getCover,
-    getPlatform
+    getPlatform,
+    getInitialGames
 }

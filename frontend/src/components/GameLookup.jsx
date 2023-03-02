@@ -8,7 +8,8 @@ import { FaPlus } from "react-icons/fa";
 function GameLookup({ localGameList, setLocalGameList, closeModal }) {
 
   const serverAPI = "/api/";
-  const [formData, setFormData] = useState("mario");
+  const [formData, setFormData] = useState("");
+  // const [formData, setFormData] = useState(async = () => { await  });
 
   // const initialResults = [
   //   {id: 1, name: "test1", platforms: [8]},
@@ -30,6 +31,24 @@ function GameLookup({ localGameList, setLocalGameList, closeModal }) {
     {
       setIsLoading(true);
       axios.post(serverAPI + "lookup/games/" + formData)
+      .then((response) => {
+        setIsLoading(false);
+        // console.log(response.data);
+        setLookupResults(response.data);
+
+        // if (props.gamelist !== undefined)
+        // {
+        //   console.log(props.gamelist.games)
+        // }
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+    }
+    else
+    {
+      setIsLoading(true);
+      axios.post(serverAPI + "lookup/initialgames/")
       .then((response) => {
         setIsLoading(false);
         // console.log(response.data);
