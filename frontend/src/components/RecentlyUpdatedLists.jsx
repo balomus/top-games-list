@@ -3,8 +3,8 @@ import Spinner from "./Spinner";
 
 const RecentlyUpdatedLists = () => {
 
-    const [isLoading, setIsLoading] = useState();
-    const [gameLists, setGameLists] = useState();
+    // const [isLoading, setIsLoading] = useState();
+    // const [gameLists, setGameLists] = useState();
 
     useEffect(() => {
         const getLists = async () => {
