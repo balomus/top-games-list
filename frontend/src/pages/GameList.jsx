@@ -86,6 +86,13 @@ const GameList = () => {
         }
     }
 
+    const onEnter = (e) => {
+        if (e.key === "Enter")
+        {
+          e.target.blur();
+        }
+    }
+
     const handleShare = async (e) => {
         e.preventDefault();
         console.log('Share link clicked');
@@ -209,7 +216,7 @@ const GameList = () => {
                             { owner ? 
                                 <div className="description">
                                     <label>Description:</label>
-                                    <div><input type="text" name="description" value={localGameList.description} onChange={onChange} /></div>
+                                    <div><input type="text" name="description" value={localGameList.description} onChange={onChange} onKeyUp={onEnter} /></div>
                                 </div>
                             : 
                                 <h3>{localGameList.description}</h3>

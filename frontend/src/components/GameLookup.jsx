@@ -69,6 +69,13 @@ function GameLookup({ localGameList, setLocalGameList, closeModal }) {
     setFormData((e.target.value))
   }
 
+  const onEnter = (e) => {
+    if (e.key === "Enter")
+    {
+      e.target.blur();
+    }
+  }
+
   const handleSubmit = (e) => {
     e.preventDefault();
   }
@@ -119,7 +126,7 @@ function GameLookup({ localGameList, setLocalGameList, closeModal }) {
         <form onSubmit={handleSubmit}>
             <label>
                 Enter a title:
-                <input type="text" name="game" value={formData} onChange={onChange} />
+                <input type="text" name="game" value={formData} onChange={onChange} onKeyUp={onEnter} />
             </label>
         </form>
         {!isLoading && <div className="games-container">
