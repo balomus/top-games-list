@@ -49,8 +49,7 @@ const GameList = () => {
             {
                 setOwner(false);
             }
-            const creatorNameResponse = await axios.get('api/users/' + response.data.user);
-            setListCreator(creatorNameResponse.data);
+            setListCreator(response.data.username)
         }
         fetchData();
         // eslint-disable-next-line react-hooks/exhaustive-deps

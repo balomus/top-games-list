@@ -16,14 +16,20 @@ const getGameLists = asyncHandler(async (req, res) => {
 // @route GET /api/gamelists/:id
 // @access Public
 const getOneGameList = asyncHandler(async (req, res) => {
-    const gameList = await GameList.findById(req.params.id);
+    let gameList = await GameList.findById(req.params.id);
 
     if (!gameList) {
         res.status(400);
         throw new Error('GameList not found');
     }
 
-    res.status(200).json(gameList);
+    const user = await User.findById(gameList.user);
+    let newList = JSON.parse(JSON.stringify(gameList));
+    newList.username = user.name;
+
+    console.log(newList);
+
+    res.status(200).json(newList);
 })
 
 // @desc Set GameLists

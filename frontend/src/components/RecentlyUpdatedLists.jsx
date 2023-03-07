@@ -12,7 +12,7 @@ const RecentlyUpdatedLists = () => {
         const getLists = async () => {
             setIsLoading(true);
             const lists = await axios.get('/api/gamelists/recent');
-            console.log(lists.data);
+            // console.log(lists.data);
             setGameLists(lists.data);
             setIsLoading(false);
         }
