@@ -111,10 +111,41 @@ const deleteGameList = asyncHandler(async (req, res) => {
     res.status(200).json({ id: req.params.id });
 })
 
+// @desc Get recently updated game lists
+// @route GET /api/gamelist/recent
+// @access Public
+const getRecentGameLists = asyncHandler(async (req, res) => {
+    let gameLists = await GameList.find().sort({ updatedAt: -1 }).limit(5);
+    let newList = [];
+    
+    await Promise.all(gameLists.map(async (list) => {
+        const user = await User.findById(list.user);
+        
+        let newObj = JSON.parse(JSON.stringify(list));
+        newObj.username = user.name;
+        newList.push(newObj);
+    }))
+
+    newList.sort((a, b) => {
+        if (a.updatedAt < b.updatedAt)
+        {
+            return 1;
+        }
+        if (a.updatedAt > b.updatedAt)
+        {
+            return -1;
+        }
+        return 0;
+    })
+
+    res.status(200).json(newList);
+})
+
 module.exports = {
     getGameLists,
     getOneGameList,
     setGameList,
     updateGameList,
     deleteGameList,
+    getRecentGameLists,
 }

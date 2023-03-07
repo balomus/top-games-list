@@ -89,6 +89,7 @@ const getCover = asyncHandler(async (req, res) => {
         data: data
     })
     .then((response) => {
+        console.log(response);
         response.data.forEach(cover => {
             cover.url = "https://images.igdb.com/igdb/image/upload/t_720p/" + cover.image_id + ".jpg";
         });
