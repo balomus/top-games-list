@@ -27,9 +27,16 @@ const getOneGameList = asyncHandler(async (req, res) => {
     let newList = JSON.parse(JSON.stringify(gameList));
     newList.username = user.name;
 
-    console.log(newList);
-
     res.status(200).json(newList);
+})
+
+// @desc Get a user's GameLists
+// @route GET /api/gamelists/user/:id
+// @access Public
+const getUsersGameLists = asyncHandler(async (req, res) => {
+    const gameLists = await GameList.find({ user: req.params.id });
+
+    res.status(200).json(gameLists);
 })
 
 // @desc Set GameLists
@@ -150,6 +157,7 @@ const getRecentGameLists = asyncHandler(async (req, res) => {
 module.exports = {
     getGameLists,
     getOneGameList,
+    getUsersGameLists,
     setGameList,
     updateGameList,
     deleteGameList,
